@@ -103,17 +103,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           event.preventDefault();
           /* find active product (product that has active class) */
 
-          var activeProduct = document.querySelector(classNames.menuProduct.wrapperActive); // console.log(activeProduct);
+          var activeProduct = document.querySelector(select.all.menuProductsActive); // console.log(activeProduct);
 
           /* if there is active product and it's not thisProduct.element, remove class active from it */
 
-          if (activeProduct != null && activeProduct.contains('active') && activeProduct != thisProduct.element) {
-            activeProduct.classlist.remove('active');
+          if (activeProduct != null && activeProduct != thisProduct.element) {
+            activeProduct.classList.remove(classNames.menuProduct.wrapperActive);
           }
           /* toggle active class on thisProduct.element */
 
 
-          thisProduct.element.classList.toggle('active');
+          thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
         });
       }
     }]);
