@@ -1,8 +1,7 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
-
 {
   'use strict';
-
+ 
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
@@ -32,12 +31,14 @@
       },
     },
   };
+  
   const classNames = {
     menuProduct: {
       wrapperActive: 'active',
       imageVisible: 'active',
     },
   };
+  
   const settings = {
     amountWidget: {
       defaultValue: 1,
@@ -45,21 +46,21 @@
       defaultMax: 9,
     }
   };
+ 
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
+  
   class Product{
-    constructor(){
+    constructor(id, data){
       const thisProduct = this;
-<<<<<<< HEAD
       thisProduct.id = id;
       thisProduct.data = data;
-
       thisProduct.renderInMenu();
       thisProduct.initAccordion();
-
       console.log('new Product:', thisProduct);
     }
+    
     renderInMenu(){
       const thisProduct = this;
       /* Generate HTML based on template */
@@ -71,40 +72,40 @@
       /* add element to menu */
       menuContainer.appendChild(thisProduct.element);
     }
+    
     initAccordion(){
       const thisProduct = this;
-
       /* find the clickable trigger (the element that should react to clicking) */
       const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       // console.log(clickableTrigger);
-
       /* START: add event listener to clickable trigger on event click */
       clickableTrigger.addEventListener('click', function(event) {
         /* prevent default action for event */
         event.preventDefault();
         /* find active product (product that has active class) */
-        const activeProduct = document.querySelector(classNames.menuProduct.wrapperActive);
+        const activeProduct = document.querySelector(select.all.menuProductsActive);
         // console.log(activeProduct);
-
-        /* if there is active product and it's not thisProduct.element, remove class active from it */
-        if ( ((activeProduct != null) && activeProduct.contains('active')) && (activeProduct != thisProduct.element) ) {
-          activeProduct.classlist.remove('active');
+                /* if there is active product and it's not thisProduct.element, remove class active from it */
+        if (activeProduct != null && activeProduct != thisProduct.element) {
+          activeProduct.classList.remove(classNames.menuProduct.wrapperActive);
         }
         /* toggle active class on thisProduct.element */
-        thisProduct.element.classList.toggle('active');
+        thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
       });
     }
-=======
-
-      console.log('new Product:', thisProduct);
-    }
->>>>>>> parent of 274881f7 (init accordion)
   }
 
   const app = {
     initMenu: function() {
-      const testProduct = new Product();
-      console.log('testProduct:', testProduct);
+      const thisApp = this;
+      console.log('thisApp.data:', thisApp.data);
+      for(let productData in thisApp.data.products){
+        new Product(productData, thisApp.data.products[productData]);
+      }
+    },
+    initData: function(){
+      const thisApp = this;
+      thisApp.data = dataSource;
     },
     init: function(){
       const thisApp = this;
@@ -113,9 +114,9 @@
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
+      thisApp.initData();
       thisApp.initMenu();
     },
   };
-
   app.init();
 }
