@@ -2,10 +2,6 @@
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 /* global Handlebars, utils, dataSource */
 // eslint-disable-line no-unused-vars
 {
@@ -57,12 +53,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML)
   };
 
-  var Product =
-  /*#__PURE__*/
-  function () {
-    function Product(id, data) {
-      _classCallCheck(this, Product);
+  var Product = function Product() {
+    _classCallCheck(this, Product);
 
+<<<<<<< HEAD
       var thisProduct = this;
       thisProduct.id = id;
       thisProduct.data = data;
@@ -120,19 +114,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     return Product;
   }();
+=======
+    var thisProduct = this;
+    console.log('new Product:', thisProduct);
+  };
+>>>>>>> parent of 274881f7 (init accordion)
 
   var app = {
     initMenu: function initMenu() {
-      var thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
-
-      for (var productData in thisApp.data.products) {
-        new Product(productData, thisApp.data.products[productData]);
-      }
-    },
-    initData: function initData() {
-      var thisApp = this;
-      thisApp.data = dataSource;
+      var testProduct = new Product();
+      console.log('testProduct:', testProduct);
     },
     init: function init() {
       var thisApp = this;
@@ -141,7 +132,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
-      thisApp.initData();
       thisApp.initMenu();
     }
   };

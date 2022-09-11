@@ -1,6 +1,8 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
+
 {
   'use strict';
+
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
@@ -30,12 +32,14 @@
       },
     },
   };
+
   const classNames = {
     menuProduct: {
       wrapperActive: 'active',
       imageVisible: 'active',
     },
   };
+
   const settings = {
     amountWidget: {
       defaultValue: 1,
@@ -43,9 +47,11 @@
       defaultMax: 9,
     }
   };
+
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
+<<<<<<< HEAD
   class Product{
     constructor(id, data){
       const thisProduct = this;
@@ -105,6 +111,10 @@
       const thisApp = this;
       thisApp.data = dataSource;
     },
+=======
+
+  const app = {
+>>>>>>> parent of 274881f7 (init accordion)
     init: function(){
       const thisApp = this;
       console.log('*** App starting ***');
@@ -112,9 +122,8 @@
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
-      thisApp.initData();
-      thisApp.initMenu();
     },
   };
+
   app.init();
 }

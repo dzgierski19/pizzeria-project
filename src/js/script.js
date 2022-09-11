@@ -1,6 +1,8 @@
 /* global Handlebars, utils, dataSource */ // eslint-disable-line no-unused-vars
+
 {
   'use strict';
+
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
@@ -47,8 +49,9 @@
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
   class Product{
-    constructor(id, data){
+    constructor(){
       const thisProduct = this;
+<<<<<<< HEAD
       thisProduct.id = id;
       thisProduct.data = data;
 
@@ -91,19 +94,17 @@
         thisProduct.element.classList.toggle('active');
       });
     }
+=======
+
+      console.log('new Product:', thisProduct);
+    }
+>>>>>>> parent of 274881f7 (init accordion)
   }
 
   const app = {
     initMenu: function() {
-      const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
-      for(let productData in thisApp.data.products){
-        new Product(productData, thisApp.data.products[productData]);
-      }
-    },
-    initData: function(){
-      const thisApp = this;
-      thisApp.data = dataSource;
+      const testProduct = new Product();
+      console.log('testProduct:', testProduct);
     },
     init: function(){
       const thisApp = this;
@@ -112,9 +113,9 @@
       console.log('classNames:', classNames);
       console.log('settings:', settings);
       console.log('templates:', templates);
-      thisApp.initData();
       thisApp.initMenu();
     },
   };
+
   app.init();
 }
