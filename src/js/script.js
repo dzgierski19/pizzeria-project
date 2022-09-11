@@ -30,14 +30,12 @@
       },
     },
   };
-
   const classNames = {
     menuProduct: {
       wrapperActive: 'active',
       imageVisible: 'active',
     },
   };
-
   const settings = {
     amountWidget: {
       defaultValue: 1,
@@ -45,22 +43,20 @@
       defaultMax: 9,
     }
   };
-
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
-
   class Product{
     constructor(id, data){
       const thisProduct = this;
       thisProduct.id = id;
       thisProduct.data = data;
+
       thisProduct.renderInMenu();
-      thisProduct.getElements();
       thisProduct.initAccordion();
+
       console.log('new Product:', thisProduct);
     }
-
     renderInMenu(){
       const thisProduct = this;
       /* Generate HTML based on template */
@@ -72,37 +68,31 @@
       /* add element to menu */
       menuContainer.appendChild(thisProduct.element);
     }
-
-    getElements(){
-      const thisProduct = this;
-
-      thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
-      thisProduct.form = thisProduct.element.querySelector(select.menuProduct.form);
-      thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
-      thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
-      thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
-    }
     initAccordion(){
       const thisProduct = this;
 
-      /* START: add event listener to clickable trigger on event click */
+      /* find the clickable trigger (the element that should react to clicking) */
+      const clickableTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      // console.log(clickableTrigger);
 
-      thisProduct.accordionTrigger.addEventListener('click', function(event) {
+      /* START: add event listener to clickable trigger on event click */
+      clickableTrigger.addEventListener('click', function(event) {
         /* prevent default action for event */
         event.preventDefault();
         /* find active product (product that has active class) */
-        const activeProduct = document.querySelector(select.all.menuProductsActive);
+        const activeProduct = document.querySelector(classNames.menuProduct.wrapperActive);
         // console.log(activeProduct);
+
         /* if there is active product and it's not thisProduct.element, remove class active from it */
-        if (activeProduct != null && activeProduct != thisProduct.element) {
-          activeProduct.classList.remove(classNames.menuProduct.wrapperActive);
+        if ( ((activeProduct != null) && activeProduct.contains('active')) && (activeProduct != thisProduct.element) ) {
+          activeProduct.classlist.remove('active');
         }
         /* toggle active class on thisProduct.element */
-        thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
+        thisProduct.element.classList.toggle('active');
       });
     }
   }
-  
+
   const app = {
     initMenu: function() {
       const thisApp = this;
