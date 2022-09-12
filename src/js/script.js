@@ -50,7 +50,7 @@
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
   };
-  
+
   class Product{
     constructor(id, data){
       const thisProduct = this;
