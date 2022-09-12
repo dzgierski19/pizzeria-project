@@ -125,12 +125,83 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "initOrderForm",
       value: function initOrderForm() {
-        var thisProduct = this; // console.log('This is info that initOrderForm method was executed');
+        var thisProduct = this; // console.log('initOrderForm method executed');
+
+        thisProduct.form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          thisProduct.processOrder();
+        });
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = thisProduct.formInputs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var input = _step.value;
+            input.addEventListener('change', function () {
+              thisProduct.processOrder();
+            });
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+              _iterator["return"]();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+
+        thisProduct.cartButton.addEventListener('click', function (event) {
+          event.preventDefault();
+          thisProduct.processOrder();
+        });
       }
     }, {
       key: "processOrder",
       value: function processOrder() {
-        var thisProduct = this; // console.log('This is info that processOrder method was executed');
+        var thisProduct = this; // console.log('processOrder method executed');
+        // covert form to object structure e.g. { sauce: ['tomato'], toppings: ['olives', 'redPeppers']}
+
+        var formData = utils.serializeFormToObject(thisProduct.form); // console.log('formData', formData);
+        // set price to default price
+
+        var price = thisProduct.data.price; // for every category (param)...
+
+        for (var paramId in thisProduct.data.params) {
+          // determine param value, e.g. paramId = 'toppings', param = { label: 'Toppings', type: 'checkboxes'... }
+          var param = thisProduct.data.params[paramId]; //console.log(paramId, param);
+          // for every option in this category
+
+          for (var optionId in param.options) {
+            // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
+            var option = param.options[optionId];
+            var selected = formData[paramId].includes(optionId); // console.log(optionId, option);
+            // check if there is param with a name of paramId in formData and if it includes optionId
+
+            if (formData[paramId] && selected) {
+              // check if the option is not default
+              if (option["default"]) {
+                // add option price to price variable
+                console.log('opt1');
+                price += option.price;
+              }
+            } else if (option["default"]) {
+              // check if the option is default
+              // reduce price variable
+              console.log('opt2');
+              price -= option.price;
+            }
+          } // update calculated price in the HTML
+
+
+          thisProduct.priceElem.innerHTML = price;
+        }
       }
     }]);
 
