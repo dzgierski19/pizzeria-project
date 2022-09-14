@@ -76,6 +76,8 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      console.log(thisProduct.imageWrapper);
     }
 
     initAccordion() {
@@ -83,7 +85,7 @@
       /* find the clickable trigger (the element that should react to clicking) */
       // const accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
       /* START: click event listener to trigger */
-      thisProduct.accordionTrigger.addEventListener('click', function() {
+      thisProduct.accordionTrigger.addEventListener('click', function(event) {
         /* prevent default action for event */
         event.preventDefault();
         /* toggle active class on element of thisProduct */
@@ -131,20 +133,26 @@
       for (let paramId in thisProduct.data.params) {
       /* save the element in thisProduct.data.params with key paramId as const param */
         const param = thisProduct.data.params[paramId];
-        /* START LOOP: for each optionId in param.options */
-        for (let optionId in param.options) {
-        /* save the element in param.options with key optionId as const option */
+        // for every option in this category
+        for(let optionId in param.options) {
+          // determine option value, e.g. optionId = 'olives', option = { label: 'Olives', price: 2, default: true }
           const option = param.options[optionId];
-          const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
-          /* START IF: if option is selected and option is not default */
-          if (optionSelected && !option.default) {
-            /* add price of option to variable price */
-            price += option.price;
-            /* END IF: if option is selected and option is not default */
+          const selected = formData[paramId].includes(optionId);
+          // console.log(optionId, option);
+          // check if there is param with a name of paramId in formData and if it includes optionId
+          if(formData[paramId] && selected) {
+            // check if the option is not default
+            if(!option.default) {
+              // add option price to price variable
+              console.log('opt1');
+              // console.log('opt1');
+              price += option.price;
+            }
           }
           /* START ELSE IF: if option is not selected and option is default */
-          else if (!optionSelected && option.default) {
-            /* deduct price of option from price */
+          else if (option.default) {
+            // check if option is default
+            //console.log('opt2')
             price -= option.price;
             /* END ELSE IF: if option is not selected and option is default */
           }

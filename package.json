@@ -43,6 +43,7 @@
         "rimraf": "^3.0.2",
         "sass": "^1.44.0",
         "stylelint": "^14.11.0",
-        "stylelint-config-standard-scss": "^5.0.0"
+        "stylelint-config-recommended-scss": "^7.0.0",
+        "stylelint-scss": "^4.3.0"
     }
 }
