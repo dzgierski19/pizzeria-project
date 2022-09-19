@@ -55,6 +55,7 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
     }
     renderInMenu() {
@@ -77,6 +78,8 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
+      // console.log(thisProduct.amountWidgetElem);
     }
 
     initAccordion() {
@@ -112,6 +115,13 @@
         thisProduct.processOrder();
       });
 
+    }
+    initAmountWidget(){
+      const thisProduct = this;
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('updated', function(){
+        thisProduct.processOrder();
+      });
     }
     processOrder() {
       const thisProduct = this;
@@ -155,9 +165,70 @@
             }
           }
         }
-        /* set the contents of thisProduct.priceElem to be the value of variable price */
+        /* multiply price by amount */
+        price *= thisProduct.amountWidget.value;
+        console.log(thisProduct.amountWidget.value);
+        /* update calculated price in the HTML */
         thisProduct.priceElem.innerHTML = price;
       }
+    }
+  }
+
+  class AmountWidget{
+    constructor(element){
+      const thisWidget = this;
+      thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
+      // console.log('AmountWidget:', AmountWidget);
+      // console.log('constructor arguments:', element);
+    }
+    getElements(element){
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+    setValue(value){
+      const thisWidget = this;
+      const newValue = parseInt(value);
+
+      /* To Do : Add validation */
+      if ((thisWidget.value !== newValue) && !isNaN(newValue)) {
+        thisWidget.value = newValue;
+      }
+      // console.log(newValue);
+      if ((newValue >= (settings.amountWidget.defaultMin - 1)) && (newValue <= (settings.amountWidget.defaultMax + 1))) {
+        thisWidget.input.value = thisWidget.value;
+      }
+      thisWidget.announce();
+      // console.log(thisWidget.value);
+    }
+    initActions(){
+      const thisWidget = this;
+      thisWidget.input.addEventListener('change', function(){
+        thisWidget.setValue(thisWidget.input.value);
+      });
+      thisWidget.linkDecrease.addEventListener('click', function(event){
+        event.preventDefault();
+        if ((thisWidget.value <= 10) && (thisWidget.value > 0)) {
+          thisWidget.setValue(thisWidget.value -= 1);
+        }
+      });
+      thisWidget.linkIncrease.addEventListener('click', function(event){
+        event.preventDefault();
+        if ((thisWidget.value < 10) && (thisWidget.value >= 0)) {
+          thisWidget.setValue(thisWidget.value += 1);
+        }
+      });
+    }
+    announce(){
+      const thisWidget = this;
+
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
     }
   }
 
@@ -176,11 +247,11 @@
     },
     init: function(){
       const thisApp = this;
-      console.log('*** App starting ***');
-      console.log('thisApp:', thisApp);
-      console.log('classNames:', classNames);
-      console.log('settings:', settings);
-      console.log('templates:', templates);
+      // console.log('*** App starting ***');
+      // console.log('thisApp:', thisApp);
+      // console.log('classNames:', classNames);
+      // console.log('settings:', settings);
+      // console.log('templates:', templates);
       thisApp.initData();
       thisApp.initMenu();
     },
